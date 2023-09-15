@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+    <style>
+        /* Add your custom CSS styles here */
+        body {
+            font-family: 'Staatliches', cursive;
+            background-color: #f0f0f0; /* Adjusted to a light gray background */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #007bff; /* Adjusted to your company's logo color */
+            color: #fff;
+        }
+        header img {
+            margin-right: 20px; /* Add space between the logo and text */
+        }
+        header h2 {
+            margin: 0;
+        }
+        .message {
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        p {
+            font-size: 18px;
+            color: #333;
+            margin: 0;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://production-cuvette.s3.ap-south-1.amazonaws.com/company/63c10d22f5b083979a0bc6fe/logo.jpg?d=1673597713404" alt="Company Logo" width="100px">
+            <h2>Invoice</h2>
+        </header>
+
+        <div class="message">
+            <p>Dear <%= locals.customerName %>,</p>
+            <p>Thank you for choosing TabsCare App! Your order (Order ID: <%= locals.orderId %>) and invoice are attached. We appreciate your trust in us.</p>
+        </div>
+
+        <table>
+            <tr>
+                <th>Product Name</th>
+                <th>Item Price (INR)</th>
+                <th>Quantity</th>
+                <th>Total Amount (INR)</th>
+            </tr>
+            <% for (let i = 0; i < locals.products.length; i++) { %>
+                <tr>
+                    <td><%= locals.products[i].productName %></td>
+                    <td><%= locals.products[i].itemPrice %></td>
+                    <td><%= locals.products[i].quantity %></td>
+                    <td><%= locals.products[i].totalAmount %></td>
+                </tr>
+            <% } %>
+        </table>
+
+        <table>
+            <tr>
+                <td>Subtotal</td>
+                <td><%= locals.subtotal %></td>
+            </tr>
+            <tr>
+                <td>Discount</td>
+                <td><%= locals.discount %></td>
+            </tr>
+            <tr>
+                <td>Delivery Charge</td>
+                <td><%= locals.deliveryCharge %></td>
+            </tr>
+            <tr>
+                <td>GST</td>
+                <td><%= locals.gst %></td>
+            </tr>
+            <tr>
+                <td>Total (INR)</td>
+                <td><%= locals.total %></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
