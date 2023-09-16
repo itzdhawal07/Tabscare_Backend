@@ -7,11 +7,9 @@ const {
 } = require("../../config/key");
 const { Prescription } = require("../models/index");
 const { uploadFile } = require("../Services/FileUpload");
-const fs = require('fs');
 
 exports.uploadPrescription = async (req, res) => {
   try {
-    console.log('called');
     // Sync the Prescription table to ensure it exist
     await Prescription.sync({ force: false });
 

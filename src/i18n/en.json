@@ -381,5 +381,8 @@
 	"validationOrderidGuid : \"orderId\" must be a valid GUID": "validationOrderidGuid : \"orderId\" must be a valid GUID",
 	"OrderDetailFetchedSuccessfully": "OrderDetailFetchedSuccessfully",
 	"Shipment order created successfully": "Shipment order created successfully",
-	"Shipment order tracked successfully": "Shipment order tracked successfully"
+	"Shipment order tracked successfully": "Shipment order tracked successfully",
+	"FileIsMissing": "FileIsMissing",
+	"PrescriptionUploadedSuccessfully": "PrescriptionUploadedSuccessfully",
+	"Prescriptions retrieved successfully": "Prescriptions retrieved successfully"
 }
