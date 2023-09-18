@@ -93,7 +93,7 @@ exports.getAllSubcategory = async (req, res) => {
             include: [
                 {
                     model: Category,
-                    attributes: ['title'], // Include only the 'title' field from the Category model
+                    attributes: ['title','uuid'], // Include only the 'title' field from the Category model
                     as: 'category', // Use alias 'category' instead of 'Category'
                 },
             ],
@@ -125,6 +125,53 @@ exports.getAllSubcategory = async (req, res) => {
     }catch(error){
         // Error Response
         console.log(error);
+        return responseHelper.error(res, res.__("SomethingWentWrongPleaseTryAgain"), SERVERERROR);
+    }
+}
+
+exports.getAllSubSubCategory = async (req, res) => {
+    try{
+        // Fetch all categories from the database
+        const subSubCategories = await SubSubcategory.findAll({
+            include: [
+                {
+                    model: Category,
+                    attributes: ['title','uuid'], // Include only the 'title' field from the Category model
+                    as: 'category', // Use alias 'category' instead of 'Category'
+                },
+                {
+                    model: Subcategory,
+                    attributes: ['title','uuid'], // Include only the 'title' field from the Category model
+                    as: 'subCategory', // Use alias 'category' instead of 'Category'
+                },
+            ],
+            attributes: {
+                exclude: ['categoryId','subCategoryId'], // Exclude 'categoryId' from the Subcategory model
+            },
+        });
+
+        // Calculate the total number of categories
+        const totalCount = subSubCategories.length;
+
+        // Calculate the number of active categories
+        const activeCount = subSubCategories.filter(category => category.isActive).length;
+
+        // Prepare the response data
+        const responseData = {
+            totalCount,
+            activeCount,
+            subSubCategories,
+        };
+
+        // If categories are found, return them in the response
+        if (subSubCategories && subSubCategories.length > 0) {
+            return responseHelper.successapi(res, res.__("Categories fetched successfully"), SUCCESS, responseData);
+        }else {
+            // If no categories are found, you can return an empty array or an appropriate message
+            return responseHelper.successapi(res, res.__("No categories found"), SUCCESS, []);
+        }
+    }catch(error){
+        // Error Response
         return responseHelper.error(res, res.__("SomethingWentWrongPleaseTryAgain"), SERVERERROR);
     }
 }
