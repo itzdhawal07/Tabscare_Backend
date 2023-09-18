@@ -14,9 +14,9 @@ module.exports = {
 						images: Joi.array().min(1).items(Joi.string()).required(),
 						categoryId: Joi.string().guid().required(),
 						subCategoryId: Joi.string().guid().required(),
+						subSubCategoryId: Joi.string().guid().optional(),
 						schedule: Joi.string().required(),
-						manufacturing_company: Joi.string().required(),
-						manufacturer_address: Joi.string().required(),
+						manufacturerId: Joi.string().guid().required(),
 						salt_composition: Joi.string().required(),
 						medicine_type: Joi.string().required(),
 						stock: Joi.number().integer().min(0).required(),
@@ -47,6 +47,7 @@ module.exports = {
 						liver_interaction: Joi.string().required(),
 						otherDrugs_interaction: Joi.string().required(),
 						country_of_origin: Joi.string().required(),
+						isActive: Joi.boolean().required()
 					})
 				)
 				.required(),
