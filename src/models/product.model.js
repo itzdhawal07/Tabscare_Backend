@@ -27,14 +27,6 @@ const Product = sequelize.define("Product", {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    manufacturing_company: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    manufacturer_address: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
     salt_composition: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -159,6 +151,14 @@ const Product = sequelize.define("Product", {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    isActive: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        validate: {
+            isIn: [[true, false]],
+        }
+    }
 }, {
     timestamps: true, // Add timestamps (createdAt and updatedAt)
 });
