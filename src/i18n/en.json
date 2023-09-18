@@ -55,5 +55,8 @@
 	"SomethingWentWrongPleaseTryAgain": "SomethingWentWrongPleaseTryAgain",
 	"subCategoryCreatedSuccessfully": "subCategoryCreatedSuccessfully",
 	"validationManufacturingCompanyUnknown : \"products[1].manufacturing_company\" is not allowed": "validationManufacturingCompanyUnknown : \"products[1].manufacturing_company\" is not allowed",
-	"SubSubcategory not found": "SubSubcategory not found"
+	"SubSubcategory not found": "SubSubcategory not found",
+	"Category with the same title already exists": "Category with the same title already exists",
+	"Categories fetched successfully": "Categories fetched successfully",
+	"Subcategories fetched successfully": "Subcategories fetched successfully"
 }
