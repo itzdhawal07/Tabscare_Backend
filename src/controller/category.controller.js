@@ -153,6 +153,7 @@ exports.addSubcategory = async (req, res) => {
             title: reqParam.title,
             description: reqParam.desc,
             img: reqParam.img,
+            isActive: reqParam.isActive
         });
 
         console.log(newSubcategory,'newSubcategory');
@@ -271,6 +272,7 @@ exports.addSubSubcategory = async (req, res) => {
             title: reqParam.title,
             description: reqParam.desc,
             img: reqParam.img,
+            isActive: reqParam.isActive
         });
 
         console.log(newSubSubcategory,'newSubSubcategory');
