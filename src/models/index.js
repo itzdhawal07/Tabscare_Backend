@@ -135,9 +135,15 @@ Category.hasMany(Subcategory, {
     onDelete: 'CASCADE', // Delete associated subcategories if category is deleted
 });
 
+Category.hasMany(SubSubcategory, {
+    foreignKey: 'categoryId',
+    onDelete: 'CASCADE', // Delete associated subsubcategories if category is deleted
+});
+
 Subcategory.belongsTo(Category, {
     foreignKey: 'categoryId',
     onDelete: 'CASCADE', // If the associated category is deleted, also delete the subcategory
+    as: 'category'
 });
 
 Subcategory.hasMany(Product, {
@@ -151,6 +157,11 @@ Subcategory.hasMany(SubSubcategory, {
 });
 
 SubSubcategory.belongsTo(Subcategory, {
+    foreignKey: 'categoryId',
+    onDelete: 'CASCADE'
+});
+
+SubSubcategory.belongsTo(Category, {
     foreignKey: 'subCategoryId',
     onDelete: 'CASCADE'
 });
