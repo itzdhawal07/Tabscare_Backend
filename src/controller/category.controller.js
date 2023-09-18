@@ -1,12 +1,10 @@
 const responseHelper = require("../helpers/responseHelper");
 // const ContactusModel = require("../models/contactus.model");
 const categoryValidation = require("../validations/category.validation");
-const helper = require("../helpers/helper");
 const {
 	SERVERERROR,
 	SUCCESS,
 	FAILURE,
-	ACTIVE_STATUS,
 } = require("../../config/key");
 const { Category, Subcategory, SubSubcategory } = require('../models/index');
 

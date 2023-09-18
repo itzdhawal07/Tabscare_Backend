@@ -4,7 +4,6 @@ const {
 	SERVERERROR,
 	SUCCESS,
 	FAILURE,
-	ACTIVE_STATUS,
 } = require("../../config/key");
 const { Product, User, CartItem, Cart } = require('../models/index');
 

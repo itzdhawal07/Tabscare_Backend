@@ -4,7 +4,6 @@ const {
 	SERVERERROR,
 	SUCCESS,
 	FAILURE,
-	ACTIVE_STATUS,
 } = require("../../config/key");
 const { Manufacturer } = require('../models/index');
 

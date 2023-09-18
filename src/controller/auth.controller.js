@@ -2,7 +2,6 @@ const responseHelper = require("../helpers/responseHelper");
 const authValidation = require("../validations/auth.validation");
 const {
     SERVERERROR,
-    UNAUTHORIZED,
     JWT_EXPIRES_IN,
     SUCCESS,
     FAILURE,

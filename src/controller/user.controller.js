@@ -3,14 +3,8 @@ const userValidation = require("../validations/user.validation");
 const { User } = require('../models/index');
 const {
     SERVERERROR,
-    UNAUTHORIZED,
     SUCCESS,
     FAILURE,
-    ACTIVE_STATUS,
-    JWT_AUTH_TOKEN_SECRET,
-    JWT_EXPIRES_IN,
-    APP_WEB_LINK,
-    DELETED_STATUS,
     CRYPTO_SECRET
 } = require("../../config/key");
 const CryptoJs = require('crypto-js');

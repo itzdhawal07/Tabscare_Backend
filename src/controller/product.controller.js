@@ -4,7 +4,6 @@ const {
 	SERVERERROR,
 	SUCCESS,
 	FAILURE,
-	ACTIVE_STATUS,
 } = require("../../config/key");
 const { Product, Category, Subcategory, User, ProductImage, SubSubcategory, Manufacturer } = require('../models/index');
 const { v4: uuidv4 } = require('uuid');

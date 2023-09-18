@@ -1,9 +1,7 @@
 const responseHelper = require("../helpers/responseHelper");
 const {
 	SERVERERROR,
-	SUCCESS,
 	FAILURE,
-	ACTIVE_STATUS,
 } = require("../../config/key");
 
 exports.searchProduct = async (req, res) => {

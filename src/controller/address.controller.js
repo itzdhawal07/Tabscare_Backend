@@ -2,7 +2,6 @@ const responseHelper = require("../helpers/responseHelper");
 const addressValidation = require("../validations/address.validation");
 const {
     SERVERERROR,
-    UNAUTHORIZED,
     SUCCESS,
     FAILURE
 } = require("../../config/key");

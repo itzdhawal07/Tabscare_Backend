@@ -1,11 +1,9 @@
 const responseHelper = require("../helpers/responseHelper");
 const orderValidation = require("../validations/order.validation");
-const helper = require("../helpers/helper");
 const {
 	SERVERERROR,
 	SUCCESS,
 	FAILURE,
-	ACTIVE_STATUS,
 } = require("../../config/key");
 const RazorpayService = require('../Services/Razorpay');
 const { Cart, User, Order, Address, Product, CartItem, OrderProduct } = require('../models/index');
