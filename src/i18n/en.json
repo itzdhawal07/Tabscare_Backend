@@ -50,5 +50,10 @@
 	"Subcategory not found": "Subcategory not found",
 	"SubSubCategoryCreatedSuccessfully": "SubSubCategoryCreatedSuccessfully",
 	"SubSubCategory with the same title already exists": "SubSubCategory with the same title already exists",
-	"SubCategory wise SubSubCategories retrieved successfully": "SubCategory wise SubSubCategories retrieved successfully"
+	"SubCategory wise SubSubCategories retrieved successfully": "SubCategory wise SubSubCategories retrieved successfully",
+	"validationIsactiveRequired : \"isActive\" is required": "validationIsactiveRequired : \"isActive\" is required",
+	"SomethingWentWrongPleaseTryAgain": "SomethingWentWrongPleaseTryAgain",
+	"subCategoryCreatedSuccessfully": "subCategoryCreatedSuccessfully",
+	"validationManufacturingCompanyUnknown : \"products[1].manufacturing_company\" is not allowed": "validationManufacturingCompanyUnknown : \"products[1].manufacturing_company\" is not allowed",
+	"SubSubcategory not found": "SubSubcategory not found"
 }
