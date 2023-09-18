@@ -86,6 +86,9 @@ app.use("/api/v1/checkout", checkout);
 const order = require("./routes/order.route");
 app.use("/api/v1/order", order);
 
+const manufacturer = require('./routes/manufacturer.route');
+app.use("/api/v1/manufacturer", manufacturer);
+
 //Server Connection
 server.listen(PORT, () => {
 	console.log("server listening on port : -> ", PORT);
