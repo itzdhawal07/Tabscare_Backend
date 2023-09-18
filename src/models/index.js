@@ -158,12 +158,14 @@ Subcategory.hasMany(SubSubcategory, {
 
 SubSubcategory.belongsTo(Subcategory, {
     foreignKey: 'categoryId',
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
+    as:'subCategory'
 });
 
 SubSubcategory.belongsTo(Category, {
     foreignKey: 'subCategoryId',
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
+    as:'category'
 });
 
 SubSubcategory.hasMany(Product, {
