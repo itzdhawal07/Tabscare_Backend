@@ -27,6 +27,14 @@ const Category = sequelize.define("Category", {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    isActive: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        validate: {
+            isIn: [[true, false]],
+        }
+    }
 }, {
     timestamps: true, // Add timestamps (createdAt and updatedAt)
 });
