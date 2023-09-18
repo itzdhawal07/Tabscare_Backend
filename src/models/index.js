@@ -68,6 +68,16 @@ Product.belongsTo(Subcategory, {
     onDelete: 'CASCADE', // If the associated subcategory is deleted, also delete the product
 });
 
+Product.belongsTo(SubSubcategory, {
+    foreignKey: 'subSubCategoryId',
+    onDelete: 'CASCADE', // If the associated Subsubcategory is deleted, also delete the product
+});
+
+Product.belongsTo(Manufacturer, {
+    foreignKey: 'manufacturerId',
+    onDelete: 'CASCADE', // If the associated Manufacturer is deleted, also delete the product
+});
+
 Product.belongsToMany(Cart, {
     through: CartItem,
     foreignKey: 'productId',
@@ -77,7 +87,7 @@ Product.belongsToMany(Cart, {
 Product.belongsToMany(Wishlist, {
     through: WishlistProduct,
     foreignKey: 'productId',
-    onDelete: 'CASCADE', // Delete associated cart items if the product is deleted
+    onDelete: 'CASCADE',
 });
 
 Product.belongsToMany(Order, {
@@ -139,6 +149,22 @@ Subcategory.hasMany(SubSubcategory, {
     foreignKey: 'subCategoryId',
     onDelete: 'CASCADE', // If the associated category is deleted, also delete the subcategory
 });
+
+SubSubcategory.belongsTo(Subcategory, {
+    foreignKey: 'subCategoryId',
+    onDelete: 'CASCADE'
+});
+
+SubSubcategory.hasMany(Product, {
+    foreignKey: 'subSubCategoryId',
+    onDelete: 'CASCADE',
+});
+
+Manufacturer.hasMany(Product, {
+    foreignKey: 'manufacturerId',
+    onDelete: 'CASCADE',
+});
+
 
 OTP.belongsTo(User, {
     foreignKey: 'userId',
@@ -211,11 +237,6 @@ OrderProduct.belongsTo(Order, {
 
 Wishlist.belongsTo(User, {
     foreignKey: 'userId',
-    onDelete: 'CASCADE'
-});
-
-SubSubcategory.belongsTo(Subcategory, {
-    foreignKey: 'subCategoryId',
     onDelete: 'CASCADE'
 });
 
