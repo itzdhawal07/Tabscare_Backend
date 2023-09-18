@@ -6,7 +6,8 @@ module.exports = {
 		const schema = Joi.object({
 			title: Joi.string().required(),
 			desc: Joi.string().required(),
-			img: Joi.string().required()
+			img: Joi.string().required(),
+			isActive: Joi.boolean().required()
 		}).unknown(true);
 		const { error } = schema.validate(req);
 		if (error) {
@@ -62,6 +63,7 @@ module.exports = {
 			desc: Joi.string().required(),
 			img: Joi.string().required(),
 			subCategoryId: Joi.string().guid().required(),
+			categoryId: Joi.string().guid().required(),
 			isActive: Joi.boolean().required()
 		}).unknown(true);
 		const { error } = schema.validate(req);
