@@ -35,7 +35,8 @@ exports.addCategory = async (req, res) => {
         const newCategory = Category.build({
             title: reqParam.title,
             description: reqParam.desc,
-            img: reqParam.img
+            img: reqParam.img,
+            isActive: reqParam.isActive
         });
 
         // Save the user to the database
@@ -49,6 +50,7 @@ exports.addCategory = async (req, res) => {
         return responseHelper.successapi(res, res.__("categoryCreatedSuccessfully"), SUCCESS, createdCategory);
     }catch(error){
         // Error Response
+        console.log(error);
         return responseHelper.error(res, res.__("SomethingWentWrongPleaseTryAgain"), SERVERERROR);
     }
 }
@@ -58,9 +60,22 @@ exports.getAllCategory = async (req, res) => {
         // Fetch all categories from the database
         const categories = await Category.findAll();
 
+        // Calculate the total number of categories
+        const totalCount = categories.length;
+
+        // Calculate the number of active categories
+        const activeCount = categories.filter(category => category.isActive).length;
+
+        // Prepare the response data
+        const responseData = {
+            totalCount,
+            activeCount,
+            categories,
+        };
+
         // If categories are found, return them in the response
         if (categories && categories.length > 0) {
-            return responseHelper.successapi(res, res.__("Categories fetched successfully"), SUCCESS, categories);
+            return responseHelper.successapi(res, res.__("Categories fetched successfully"), SUCCESS, responseData);
         }else {
             // If no categories are found, you can return an empty array or an appropriate message
             return responseHelper.successapi(res, res.__("No categories found"), SUCCESS, []);
@@ -74,17 +89,42 @@ exports.getAllCategory = async (req, res) => {
 exports.getAllSubcategory = async (req, res) => {
     try{
         // Fetch all subcategories from the database
-        const subcategories = await Subcategory.findAll();
+        const subcategories = await Subcategory.findAll({
+            include: [
+                {
+                    model: Category,
+                    attributes: ['title'], // Include only the 'title' field from the Category model
+                    as: 'category', // Use alias 'category' instead of 'Category'
+                },
+            ],
+            attributes: {
+                exclude: ['categoryId'], // Exclude 'categoryId' from the Subcategory model
+            },
+        });
+
+        // Calculate the total number of subcategories
+        const totalCount = subcategories.length;
+
+        // Calculate the number of active categories
+        const activeCount = subcategories.filter(category => category.isActive).length;
+
+        // Prepare the response data
+        const responseData = {
+            totalCount,
+            activeCount,
+            subcategories,
+        };
 
         // If subcategories are found, return them in the response
         if (subcategories && subcategories.length > 0) {
-            return responseHelper.successapi(res, res.__("Subcategories fetched successfully"), SUCCESS, subcategories);
+            return responseHelper.successapi(res, res.__("Subcategories fetched successfully"), SUCCESS, responseData);
         }else {
             // If no subcategories are found, you can return an empty array or an appropriate message
             return responseHelper.successapi(res, res.__("No subcategories found"), SUCCESS, []);
         }
     }catch(error){
         // Error Response
+        console.log(error);
         return responseHelper.error(res, res.__("SomethingWentWrongPleaseTryAgain"), SERVERERROR);
     }
 }
@@ -240,6 +280,7 @@ exports.getCategoryWiseSubCategory = async (req, res) => {
 exports.addSubSubcategory = async (req, res) => {
     try{
         // Check if the subcategory table exists and create it if not
+        await Category.sync({ force: false });
         await Subcategory.sync({ force: false });
         await SubSubcategory.sync({ force: false });
 
@@ -258,9 +299,19 @@ exports.addSubSubcategory = async (req, res) => {
 
         if(existingSubSubcategory) return responseHelper.error(res, res.__("SubSubCategory with the same title already exists"), FAILURE);
 
+        const category = await Category.findOne({
+            where: {
+                uuid: reqParam.categoryId,
+            },
+            raw: true
+        });
+
+        if (!category) return responseHelper.error(res, res.__("Category not found with the provided categoryId"), FAILURE);
+
         const subCategory = await Subcategory.findOne({
             where: {
                 uuid: reqParam.subCategoryId,
+                categoryId: category.id
             },
             raw: true
         });
@@ -269,6 +320,7 @@ exports.addSubSubcategory = async (req, res) => {
 
         const newSubSubcategory = await SubSubcategory.create({
             subCategoryId: subCategory?.id,
+            categoryId: category?.id,
             title: reqParam.title,
             description: reqParam.desc,
             img: reqParam.img,
