@@ -6,14 +6,14 @@ const {
 	FAILURE,
 	ACTIVE_STATUS,
 } = require("../../config/key");
-const { Product, Category, Subcategory, User, ProductImage } = require('../models/index');
+const { Product, Category, Subcategory, User, ProductImage, SubSubcategory, Manufacturer } = require('../models/index');
 const { v4: uuidv4 } = require('uuid');
 
 exports.createProduct = async (req, res) => {
     try {
         const reqParam = req.body;
 
-        // Sync the Product table to ensure it exist
+        // Sync the Product table to ensure it exists
         await Product.sync({ force: false });
         await ProductImage.sync({ force: false });
 
@@ -22,15 +22,16 @@ exports.createProduct = async (req, res) => {
         if (validationMessage) return responseHelper.error(res, res.__(validationMessage), FAILURE);
 
         const productList = reqParam.products;
-        console.log(productList,'productList');
+        console.log(productList, 'productList');
 
         // Array to store the responses for each product
-        const responseList = [];
         const addedProducts = [];
 
-        for(const productData of productList) {
+        for (const productData of productList) {
             const categoryId = productData.categoryId;
             const subCategoryId = productData.subCategoryId;
+            const subSubCategoryId = productData.subSubCategoryId; // Optional
+            const manufacturerId = productData.manufacturerId; // Mandatory
 
             // Find the Category and Subcategory by their UUIDs
             const category = await Category.findOne({
@@ -40,17 +41,46 @@ exports.createProduct = async (req, res) => {
                 raw: true
             });
 
+            if (!category) return responseHelper.error(res, res.__("Category not found"), FAILURE);
+
             const subcategory = await Subcategory.findOne({
                 where: {
                     uuid: subCategoryId,
+                    categoryId: category.id
                 },
                 raw: true
             });
 
-            if (!category || !subcategory) {
-                // If the Category or Subcategory is not found, return an appropriate message
-                responseList.push("FAILED");
-                continue;
+            if(!subcategory) return responseHelper.error(res, res.__("Subcategory not found"), FAILURE);
+
+            // Check if subSubCategoryId is provided and valid
+            let subSubcategory;
+            if (subSubCategoryId) {
+                subSubcategory = await SubSubcategory.findOne({
+                    where: {
+                        uuid: subSubCategoryId,
+                        subCategoryId: subcategory.id
+                    },
+                    raw: true
+                });
+
+                if (!subSubcategory) {
+                    // If subSubCategoryId is provided but not found, return an appropriate message
+                    return responseHelper.error(res, res.__("SubSubcategory not found"), FAILURE);
+                }
+            }
+
+            // Check if manufacturerId is provided and valid
+            const manufacturer = await Manufacturer.findOne({
+                where: {
+                    uuid: manufacturerId
+                },
+                raw: true
+            });
+
+            if (!manufacturer) {
+                // If manufacturerId is provided but not found, return an appropriate message
+                return responseHelper.error(res, res.__("Manufacturer not found"), FAILURE);
             }
 
             const productUUID = uuidv4();
@@ -61,10 +91,10 @@ exports.createProduct = async (req, res) => {
                 sku_code: productData.sku_code,
                 name: productData.name,
                 schedule: productData.schedule,
-                manufacturing_company: productData.manufacturing_company,
                 categoryId: category.id,
                 subCategoryId: subcategory.id,
-                manufacturer_address: productData.manufacturer_address,
+                subSubCategoryId: subSubcategory ? subSubcategory.id : null,
+                manufacturerId: manufacturer.id,
                 salt_composition: productData.salt_composition,
                 medicine_type: productData.medicine_type,
                 stock: productData.stock,
@@ -96,6 +126,7 @@ exports.createProduct = async (req, res) => {
                 liver_interaction: productData.liver_interaction,
                 otherDrugs_interaction: productData.otherDrugs_interaction,
                 country_of_origin: productData.country_of_origin,
+                isActive: productData.isActive
             });
 
             if (product) {
@@ -111,20 +142,14 @@ exports.createProduct = async (req, res) => {
 
                 // Bulk insert product images
                 await ProductImage.bulkCreate(productImages);
-
-                responseList.push("SUCCESS");
             } else {
-                responseList.push("FAILED");
+                // If product creation failed, return an appropriate message
+                return responseHelper.error(res, res.__("Product creation failed"), FAILURE);
             }
         }
 
-        // Check if all products were successfully created
-        if (responseList.every((response) => response === "SUCCESS")) {
-            return responseHelper.successapi(res, res.__("Products created successfully"), SUCCESS, addedProducts);
-        } else {
-            // If at least one product creation failed, return an appropriate message
-            return responseHelper.error(res, res.__("SomethingWentWrongPleaseTryAgain"), FAILURE);
-        }
+        // If all products were successfully created
+        return responseHelper.successapi(res, res.__("Products created successfully"), SUCCESS, addedProducts);
     } catch (error) {
         // Error Response
         console.log(error);
