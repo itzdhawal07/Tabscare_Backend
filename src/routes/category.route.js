@@ -6,7 +6,10 @@ router.post("/add", categoryController.addCategory);
 router.get("/get-all", categoryController.getAllCategory);
 router.get("/get-all-subcategory", categoryController.getAllSubcategory);
 router.get("/:id", categoryController.getSingleCategory);
-router.post("/subcategory/add", categoryController.addSubcategory);
+router.post("/create-subcategory", categoryController.addSubcategory);
 router.get("/subcategory/:id", categoryController.getSingleSubcategory);
+router.get("/get-category-wise-subcategory/:id",categoryController.getCategoryWiseSubCategory);
+router.post("/create-sub-subcategory", categoryController.addSubSubcategory);
+router.get("/get-subcategory-wise-subsubcategory/:id",categoryController.getSubCategoryWiseSubSubCategory);
 
 module.exports = router;
