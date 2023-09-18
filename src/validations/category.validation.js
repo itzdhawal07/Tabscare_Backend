@@ -41,5 +41,44 @@ module.exports = {
 			return helper.validationMessageKey("validation", error);
 		}
 		return null;
-	}
+	},
+
+	async getCategoryWiseSubCategoryValidation(req) {
+		const schema = Joi.object({
+			id: Joi.string().guid().required(),
+		}).unknown(true);
+		const { error } = schema.validate(req);
+		if (error) {
+            console.log("error"+error)
+			return helper.validationMessageKey("validation", error);
+		}
+		return null;
+	},
+
+	async createSubSubcategoryValidation(req) {
+		const schema = Joi.object({
+			title: Joi.string().required(),
+			desc: Joi.string().required(),
+			img: Joi.string().required(),
+			subCategoryId: Joi.string().guid().required()
+		}).unknown(true);
+		const { error } = schema.validate(req);
+		if (error) {
+            console.log("error"+error)
+			return helper.validationMessageKey("validation", error);
+		}
+		return null;
+	},
+
+	async getSubCategoryWiseSubSubCategoryValidation(req) {
+		const schema = Joi.object({
+			id: Joi.string().guid().required(),
+		}).unknown(true);
+		const { error } = schema.validate(req);
+		if (error) {
+            console.log("error"+error)
+			return helper.validationMessageKey("validation", error);
+		}
+		return null;
+	},
 };
