@@ -5,6 +5,7 @@ const categoryController = require("../controller/category.controller");
 router.post("/add", categoryController.addCategory);
 router.get("/get-all", categoryController.getAllCategory);
 router.get("/get-all-subcategory", categoryController.getAllSubcategory);
+router.get("/get-all-sub-subcategory", categoryController.getAllSubSubCategory);
 router.get("/:id", categoryController.getSingleCategory);
 router.post("/create-subcategory", categoryController.addSubcategory);
 router.get("/subcategory/:id", categoryController.getSingleSubcategory);
