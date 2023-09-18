@@ -16,6 +16,8 @@ const ProductImage = require('./productImage.model');
 const OrderProduct = require('./orderProduct.model');
 const Wishlist = require('../models/wishlist.model');
 const WishlistProduct = require('../models/wishlistProduct.model');
+const Manufacturer = require('../models/manufacturer.model');
+const SubSubcategory = require("../models/subSubcategory.model");
 
 // Define associations here
 User.hasMany(Address, {
@@ -133,6 +135,11 @@ Subcategory.hasMany(Product, {
     onDelete: 'CASCADE', // If the associated category is deleted, also delete the subcategory
 });
 
+Subcategory.hasMany(SubSubcategory, {
+    foreignKey: 'subCategoryId',
+    onDelete: 'CASCADE', // If the associated category is deleted, also delete the subcategory
+});
+
 OTP.belongsTo(User, {
     foreignKey: 'userId',
     onDelete: 'CASCADE', // Delete associated OTP if the user is deleted
@@ -207,6 +214,11 @@ Wishlist.belongsTo(User, {
     onDelete: 'CASCADE'
 });
 
+SubSubcategory.belongsTo(Subcategory, {
+    foreignKey: 'subCategoryId',
+    onDelete: 'CASCADE'
+});
+
 module.exports = {
     User,
     Address,
@@ -221,5 +233,7 @@ module.exports = {
     ProductImage,
     OrderProduct,
     Wishlist,
-    WishlistProduct
+    WishlistProduct,
+    Manufacturer,
+    SubSubcategory
 };
